@@ -50,7 +50,7 @@
 <link rel="shortcut icon" href="/images/avatar.jpg">
 
 
-<title>归档集 - 木子</title>
+<title>搭建文件在线预览服务 - 木子</title>
 
 <meta name="keywords" content="">
 
@@ -100,8 +100,26 @@
 </div>
             <div class="page-title">
     <ul>
-        <li><a href="/" data-name="首页" title="Back Home">首页</a></li>
-        <li><a href="/archives" data-name="标签云" title="标签云">归档</a></li>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="">
+                    <a href="/categories/web" data-name="前端">前端</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/java" data-name="Java后台">Java后台</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/linux" data-name="Linux">Linux</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/others" data-name="其他">其他</a>
+                </li>
+            
+        
         <li class="page-search">
     <form id="search" class="search-form">
         <label for="s" class="sr-only">请输入关键字</label>
@@ -143,38 +161,55 @@
 <div class="main-inner">
     <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
         <div class="post-header">
-            <h3 class="post-title">本站目前共计2篇文章</h3>
-        </div>
-        <div class="post-content markdown-body" itemprop="articleBody">
-            <div class="archives">
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2018年12月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>05日21:29:06
-                            <a href="/2018/12/05/搭建文件在线预览服务/">搭建文件在线预览服务</a>
-                        </li>
-                        
-                
-                
-                
-                        <li>05日15:55:44
-                            <a href="/2018/12/05/hello-world/">Hello World</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="" target="_blank">
+                    <img width="48" src="/images/avatar.jpg" alt="avatar">
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="" target="_blank"></a>
+                    <span title="最后编辑于2018-12-05">2018-12-05</span>
+                </p>
+                <p></p>
+            </div>
+            <h2 class="post-title">搭建文件在线预览服务</h2>
+            <div class="post-meta">
+                本文总共1445个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
+        <div class="post-content markdown-body">
+            <p><strong>工作环境：</strong>mac</p>
+<p>####################################################<br><strong>要求：</strong><br><a href="https://gitee.com/kekingcn/file-online-preview" target="_blank" rel="noopener">https://gitee.com/kekingcn/file-online-preview</a><br>研究上面的项目，<br>1.能够在自己机器或者服务器上搭建成功<br>2.总结搭建服务文档流程和注意点。</p>
+<p><strong>实现：</strong><br>1.下载项目    git clone <a href="https://github.com/kekingcn/file-online-preview.git" target="_blank" rel="noopener">https://github.com/kekingcn/file-online-preview.git</a></p>
+<p>2.安装OpenOffice    【我安装在mac，下方网址里还有其他版本的安装包】<br>   <a href="http://www.openoffice.org/download/index.html" target="_blank" rel="noopener">http://www.openoffice.org/download/index.html</a></p>
+<p>3.安装redis,redis密码可以去/etc/redis.conf里面设置，然后配置在本项目的application-dev.properties中，也可以不设置</p>
+<p>4.在application-dev.properties里面，配置redis地址和OpenOffice目录<br><img src="/images/img/1.png" alt="1"><br>redis的端口号如果没有设置，默认是6379<br>file.dir目录是转换文件实际存储地址，注意要以/结尾<br>office.home要配置到Contents目录（我的office是安装在mac上的）</p>
+<p>5.file.dir配置的目录要跟之前nginx配置的目录一致</p>
+<p>6.运行FilePreviewApplication的main方法，服务启动后，访问<a href="http://localhost:8012/" target="_blank" rel="noopener">http://localhost:8012/</a> </p>
+<p>7.在?url=后面放入之前用nginx服务器得到的路径即可在线预览，到此配置完成！<br><img src="/images/img/2.png" alt="2"></p>
+<p><strong>[注意]</strong><br>*我的完整application-dev.properties配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring.redisson.address = 127.0.0.1:6379</span><br><span class="line">spring.redisson.password=123456</span><br><span class="line">file.dir = /var/ba/handler/</span><br><span class="line">spring.resources.static-locations = classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:$&#123;file.dir&#125;</span><br><span class="line">office.home = /Applications/OpenOffice.app/Contents</span><br><span class="line">server.tomcat.uri-encoding = UTF-8</span><br><span class="line">converted.file.charset = UTF-8</span><br><span class="line">spring.http.multipart.max-file-size=100MB</span><br><span class="line">spring.http.multipart.max-request-size=100MB</span><br><span class="line">simText = txt,html,xml,java,properties,sql</span><br><span class="line">media=mp3,mp4,flv,rmvb</span><br></pre></td></tr></table></figure></p>
+<p>*配置过程中用到的一些命令<br>启动本地redis服务<br>sudo /usr/local/bin/redis-server /etc/redis.conf<br>查看redis进程<br>ps ax|grep redis<br>杀死redis进程<br>sudo kill -9 14605</p>
+<p>*运行项目遇到的问题<br>一开始sigar依赖不进来，是因为maven本地仓库下载的文件不完整，删掉重新下载即可</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/第三方服务/">第三方服务</a>
+            
+        </div>
+        
     </article>
+    
+    <p>本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
 </div>
+<script src="/js/busuanzi.pure.mini.js"></script>
 
         </div><!-- end #main-->
     </div><!-- end #body -->
