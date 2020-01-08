@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Realtime communication with WebRTC</title>
+        <!-- <link rel="stylesheet", href="css/client.css" /> -->
+    </head>
+    <body>
+        <h1>Realtime communication with WebRTC </h1>
+        <video autoplay playsinline></video>
+        <!-- <script src="js/client.js"></script> -->
+		<script>
+			'use strict';
+			 
+			const mediaStreamContrains = {
+			    video: true
+			};
+			 
+			const localVideo = document.querySelector('video');
+			 
+			function gotLocalMediaStream(mediaStream){
+			    localVideo.srcObject = mediaStream;
+			}
+			 
+			function handleLocalMediaStreamError(error){
+			    console.log('navigator.getUserMedia error: ', error);
+			}
+			 
+			navigator.mediaDevices.getUserMedia(mediaStreamContrains).then(
+			    gotLocalMediaStream
+			).catch(
+			    handleLocalMediaStreamError
+			);
+		</script>
+    </body>
+</html>
